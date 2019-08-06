@@ -1,6 +1,14 @@
 # multi-label-classification
 MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag Image
 
+## prerequsite
+
+- tensorflow == 1.14.0
+
+- python = 3.7.0
+
+- tensorflow-gpu == 1.14.0
+
 ## file
 
 ### python file
@@ -16,6 +24,8 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 `5. ops.py : model을 설계하기 위한 layer operation python code`
 
 <br></br>
+## data 
+
 ### data/bag_image
 
 local에 저장되어 있는 모든 handbag training / evaluation data image입니다. 이 repo에서는 용량 문제로 인한 example image 가 들어있습니다.
