@@ -19,7 +19,7 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 
 `3. data_utils.py : numpy 형태의 data와 tensor 형태의 data를 augment해주는 python code`
 
-`4. model.py : main multi-label image classification model python code (loss, feature extraction)`
+`4. model.py : main multi-label image classification model python code로 branch가 뻗어져나와 feature extract 수행 및 selective loss`
 
 `5. ops.py : model을 설계하기 위한 layer operation python code`
 <br></br>
