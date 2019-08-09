@@ -9,6 +9,11 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 
 - tensorflow-gpu == 1.14.0
 <br></br>
+## How to run
+- jupyter notebook 의 train.ipynb 파일을 이용하는 방법
+
+- 자신이 직접 train.py를 짜 `$python train.py`로 실행하는 방법
+<br></br>
 ## file
 
 ### python file
