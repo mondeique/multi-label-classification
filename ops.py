@@ -158,7 +158,7 @@ def lrelu(x, leak=0.2):
     return f1 * x + f2 * abs(x)
 
 
-def fc_layer(name, x, out_dim, activation='relu'):
+def fc_layer(name, x, out_dim, DROP_OUT_PROB, activation='relu'):
     """
     Helper function to apply fully connected
 

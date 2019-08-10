@@ -8,30 +8,29 @@ import cv2
 
 def getBagImage():
     print('Reading csv................')
-    df = pd.read_csv('./data/bag.csv')
-    data_mask = np.random.rand(len(df)) < 0.8
-    train_df = df[data_mask]
+    df = pd.read_csv('./data/training_bag_csv')
+    #data_mask = np.random.rand(len(df)) < 0.8
+    train_df = df
     train_label_df = train_df.drop(['filename'], axis=1)
-    test_df = df[~data_mask]
-    test_label_df = test_df.drop(['filename'], axis=1)
+    #test_df = df[~data_mask]
+    #test_label_df = test_df.drop(['filename'], axis=1)
     train_data = []
-    test_data = []
+    #test_data = []
     print('Load bag image...................')
-    for i in range(train_df.shape[0]):
+    for i in range(len(train_df)):
         train_image = cv2.imread(train_df['filename'][i])
         train_label = train_label_df.values.tolist()
-        train_data.append(train_image)
-        train_data.append(train_label)
-    for i in range(test_df.shape[0]):
-        test_image = cv2.imread(test_df['filename'][i])
-        test_label = test_label_df.values.tolist()
-        test_data.append(test_image)
-        test_data.append(test_label)
+        train_data.append((train_image, train_label))
+#     for i in range(len(test_df)):
+#         test_image = cv2.imread(test_df['filename'][i])
+#         test_label = test_label_df.values.tolist()
+#         test_data.append(test_image)
+#         test_data.append(test_label)
 
     print('Number of bag train data: ', str(len(train_data)))
-    print('Number of bag test data: ', str(len(test_data)))
+    #print('Number of bag test data: ', str(len(test_data)))
     print('---------------------------------------------------------------')
-    return train_data, test_data
+    return train_data
 
 #########################################################################################
 #

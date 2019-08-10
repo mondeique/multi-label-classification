@@ -17,7 +17,7 @@ def multi_label_net(x):
     is_training = tf.placeholder(tf.bool)
     keep_prob = tf.placeholder(tf.float32)
 
-    x = vgg_block('Block1', x, 1, 32, 2, 1, is_training)
+    x = vgg_block('Block1', x, 3, 32, 2, 1, is_training)
     # print(x.get_shape())
 
     x = vgg_block('Block2', x, 32, 64, 2, 1, is_training)
@@ -30,49 +30,49 @@ def multi_label_net(x):
     # print(x.get_shape())
 
     # color branch
-    color_fc1 = fc_layer('color_fc1', x, 256, keep_prob)
-    color_fc2 = fc_layer('color_fc2', color_fc1, 256, keep_prob)
+    color_fc1 = fc_layer('color_fc1', x, 256, keep_prob, 'relu')
+    color_fc2 = fc_layer('color_fc2', color_fc1, 256, keep_prob, 'relu')
     y_color_conv = fc_layer('color_softmax', color_fc2, 13, keep_prob, 'softmax')
 
     # shape branch
-    shape_fc1 = fc_layer('shape_fc1', x, 256, keep_prob)
-    shape_fc2 = fc_layer('shape_fc2', shape_fc1, 256, keep_prob)
+    shape_fc1 = fc_layer('shape_fc1', x, 256, keep_prob, 'relu')
+    shape_fc2 = fc_layer('shape_fc2', shape_fc1, 256, keep_prob, 'relu')
     y_shape_conv = fc_layer('shape_softmax', shape_fc2, 13, keep_prob, 'softmax')
 
     # opening_type branch
-    opening_fc1 = fc_layer('opening_fc1', x, 256, keep_prob)
-    opening_fc2 = fc_layer('opening_fc2', opening_fc1, 256, keep_prob)
+    opening_fc1 = fc_layer('opening_fc1', x, 256, keep_prob, 'relu')
+    opening_fc2 = fc_layer('opening_fc2', opening_fc1, 256, keep_prob, 'relu')
     y_opening_conv = fc_layer('opening_softmax', opening_fc2, 6, keep_prob, 'softmax')
 
     # strap branch
-    strap_fc1 = fc_layer('strap_fc1', x, 256, keep_prob)
-    strap_fc2 = fc_layer('strap_fc2', strap_fc1, 256, keep_prob)
+    strap_fc1 = fc_layer('strap_fc1', x, 256, keep_prob, 'relu')
+    strap_fc2 = fc_layer('strap_fc2', strap_fc1, 256, keep_prob, 'relu')
     y_strap_conv = fc_layer('strap_softmax', strap_fc2, 5, keep_prob, 'softmax')
 
     # pattern branch
-    pattern_fc1 = fc_layer('pattern_fc1', x, 256, keep_prob)
-    pattern_fc2 = fc_layer('pattern_fc2', pattern_fc1, 256, keep_prob)
+    pattern_fc1 = fc_layer('pattern_fc1', x, 256, keep_prob, 'relu')
+    pattern_fc2 = fc_layer('pattern_fc2', pattern_fc1, 256, keep_prob, 'relu')
     y_pattern_conv = fc_layer('pattern_softmax', pattern_fc2, 8, keep_prob, 'softmax')
 
     # material branch
-    material_fc1 = fc_layer('material_fc1', x, 256, keep_prob)
-    material_fc2 = fc_layer('material_fc2', material_fc1, 256, keep_prob)
+    material_fc1 = fc_layer('material_fc1', x, 256, keep_prob, 'relu')
+    material_fc2 = fc_layer('material_fc2', material_fc1, 256, keep_prob, 'relu')
     y_material_conv = fc_layer('material_softmax', material_fc2, 7, keep_prob, 'softmax')
 
     # handle branch
-    handle_fc1 = fc_layer('handle_fc1', x, 256, keep_prob)
-    handle_fc2 = fc_layer('handle_fc2', handle_fc1, 256, keep_prob)
+    handle_fc1 = fc_layer('handle_fc1', x, 256, keep_prob, 'relu')
+    handle_fc2 = fc_layer('handle_fc2', handle_fc1, 256, keep_prob, 'relu')
     y_handle_conv = fc_layer('handle_softmax', handle_fc2, 5, keep_prob, 'softmax')
 
     # decoration branch
-    decoration_fc1 = fc_layer('decoration_fc1', x, 256, keep_prob)
-    decoration_fc2 = fc_layer('decoration_fc2', decoration_fc1, 256, keep_prob)
+    decoration_fc1 = fc_layer('decoration_fc1', x, 256, keep_prob, 'relu')
+    decoration_fc2 = fc_layer('decoration_fc2', decoration_fc1, 256, keep_prob, 'relu')
     y_decoration_conv = fc_layer('decoration_softmax', decoration_fc2, 8, keep_prob, 'softmax')
 
     return y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, y_handle_conv, y_decoration_conv, is_training, keep_prob
 
 
-def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, y, mask):
+def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, y_handle_conv, y_decoration_conv, y, mask):
 
     vector_color = tf.constant(0., tf.float32, [BATCH_SIZE])
     vector_shape = tf.constant(1., tf.float32, [BATCH_SIZE])
@@ -92,7 +92,7 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     handle_mask = tf.cast(tf.equal(mask, vector_handle), tf.float32)
     decoration_mask = tf.cast(tf.equal(mask, vector_decoration), tf.float32)
 
-    tf.add_to_collection('smile_mask', color_mask)
+    tf.add_to_collection('color_mask', color_mask)
     tf.add_to_collection('shape_mask', shape_mask)
     tf.add_to_collection('opening_mask', opening_mask)
     tf.add_to_collection('strap_mask', strap_mask)
@@ -101,14 +101,14 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     tf.add_to_collection('handle_mask', handle_mask)
     tf.add_to_collection('decoration_mask', decoration_mask)
 
-    y_color = tf.slice(y, [0, 0], [BATCH_SIZE, 2])
-    y_shape = tf.slice(y, [0, 0], [BATCH_SIZE, 2])
-    y_opening = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
-    y_strap = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
-    y_pattern = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
-    y_material = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
-    y_handle = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
-    y_decoration = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
+    y_color = tf.slice(y, [0, 0], [BATCH_SIZE, 13])
+    y_shape = tf.slice(y, [0, 0], [BATCH_SIZE, 13])
+    y_opening = tf.slice(y, [0, 0], [BATCH_SIZE, 6])
+    y_strap = tf.slice(y, [0, 0], [BATCH_SIZE, 5])
+    y_pattern = tf.slice(y, [0, 0], [BATCH_SIZE, 8])
+    y_material = tf.slice(y, [0, 0], [BATCH_SIZE, 7])
+    y_handle = tf.slice(y, [0, 0], [BATCH_SIZE, 5])
+    y_decoration = tf.slice(y, [0, 0], [BATCH_SIZE, 8])
 
     tf.add_to_collection('y_color', y_color)
     tf.add_to_collection('y_shape', y_shape)
