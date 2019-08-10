@@ -263,7 +263,7 @@ def padding_inputs(image: tf.Tensor, target_shape: Tuple[int, int, int]) -> Tupl
 ################################ Numpy Functions #######################################
 
 def set_value(batch, img_size):
-    for i in range(len(batch):
+    for i in range(len(batch)):
         new_batch[i] = np.resize(batch[i](img_size,img_size,3))  
     return new_batch
 
