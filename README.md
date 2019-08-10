@@ -18,15 +18,29 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 
 ### python file
 
-`1. const.py : learning rate나 batch size와 같은 constant 변수를 저장하는 python code`
+```
+1. const.py : learning rate나 batch size와 같은 constant 변수를 저장하는 python code
+```
 
-`2. data_loader.py : numpy 형태로 train_data와 test_data를 나누는 python code와 batch size의 형태로 애초에 초반에 pipeline을 만들어주는 python code`
 
-`3. data_utils.py : numpy 형태의 data와 tensor 형태의 data를 augment해주는 python code`
+```
+2. data_loader.py : numpy 형태로 train_data와 test_data를 나누는 python code와 batch size의 형태로 애초에 초반에 pipeline을 만들어주는 python code
+```
 
-`4. model.py : main multi-label image classification model python code로 branch가 뻗어져나와 feature extract 수행 및 selective loss`
 
-`5. ops.py : model을 설계하기 위한 layer operation python code`
+```
+3. data_utils.py : numpy 형태의 data와 tensor 형태의 data를 augment해주는 python code
+```
+
+
+```
+4. model.py : main multi-label image classification model python code로 branch가 뻗어져나와 feature extract 수행 및 selective loss
+```
+
+
+```
+5. ops.py : model을 설계하기 위한 layer operation python code
+```
 <br></br>
 ## data 
 
