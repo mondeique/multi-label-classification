@@ -50,4 +50,14 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 
 ### data/bag_image_csv
 
-- 각 handbag image에 대한 filename과 각 label이 달려있는 csv입니다. 
+- Amazon s3에 있는 cropped image id 와 matching 되는 filename 이 들어있는 csv
+
+- 각 cropped image id에 매칭되는 category label 이 들어있는 csv
+
+### data/training_bag.csv + data/make_final_csv
+
+- 최종 training csv를 만들기 위한 jupyter notebook file 과 생성된 training csv
+<br></br>
+## error
+
+1. cropped_image_id가 중복되어 두 번의 카테고리 라벨이 저장되는 경우 발생 : drop_duplicates()를 이용하여 해결
