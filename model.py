@@ -6,7 +6,7 @@ from ops import fc_layer, vgg_block
 
 def input_tensor():
     x = tf.placeholder(tf.float32, [None, IMG_SIZE, IMG_SIZE, 3])
-    y = tf.placeholder(tf.float32, [None, 7])
+    y = tf.placeholder(tf.float32, [None, 8])
     mask = tf.placeholder(tf.float32, [BATCH_SIZE])
 
     return x, y, mask
@@ -29,11 +29,10 @@ def multi_label_net(x):
     x = vgg_block('Block4', x, 128, 256, 3, 1, is_training)
     # print(x.get_shape())
 
-    # TODO : fully-connected layer dimension 개수 바꿔야 함
     # color branch
     color_fc1 = fc_layer('color_fc1', x, 256, keep_prob)
     color_fc2 = fc_layer('color_fc2', color_fc1, 256, keep_prob)
-    y_color_conv = fc_layer('color_softmax', color_fc2, 15, keep_prob, 'softmax')
+    y_color_conv = fc_layer('color_softmax', color_fc2, 13, keep_prob, 'softmax')
 
     # shape branch
     shape_fc1 = fc_layer('shape_fc1', x, 256, keep_prob)
@@ -48,19 +47,29 @@ def multi_label_net(x):
     # strap branch
     strap_fc1 = fc_layer('strap_fc1', x, 256, keep_prob)
     strap_fc2 = fc_layer('strap_fc2', strap_fc1, 256, keep_prob)
-    y_strap_conv = fc_layer('strap_softmax', strap_fc2, 6, keep_prob, 'softmax')
+    y_strap_conv = fc_layer('strap_softmax', strap_fc2, 5, keep_prob, 'softmax')
 
     # pattern branch
     pattern_fc1 = fc_layer('pattern_fc1', x, 256, keep_prob)
     pattern_fc2 = fc_layer('pattern_fc2', pattern_fc1, 256, keep_prob)
-    y_pattern_conv = fc_layer('pattern_softmax', pattern_fc2, 12, keep_prob, 'softmax')
+    y_pattern_conv = fc_layer('pattern_softmax', pattern_fc2, 8, keep_prob, 'softmax')
 
     # material branch
     material_fc1 = fc_layer('material_fc1', x, 256, keep_prob)
     material_fc2 = fc_layer('material_fc2', material_fc1, 256, keep_prob)
     y_material_conv = fc_layer('material_softmax', material_fc2, 7, keep_prob, 'softmax')
 
-    return y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, is_training, keep_prob
+    # handle branch
+    handle_fc1 = fc_layer('handle_fc1', x, 256, keep_prob)
+    handle_fc2 = fc_layer('handle_fc2', handle_fc1, 256, keep_prob)
+    y_handle_conv = fc_layer('handle_softmax', handle_fc2, 5, keep_prob, 'softmax')
+
+    # decoration branch
+    decoration_fc1 = fc_layer('decoration_fc1', x, 256, keep_prob)
+    decoration_fc2 = fc_layer('decoration_fc2', decoration_fc1, 256, keep_prob)
+    y_decoration_conv = fc_layer('decoration_softmax', decoration_fc2, 8, keep_prob, 'softmax')
+
+    return y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, y_handle_conv, y_decoration_conv, is_training, keep_prob
 
 
 def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_pattern_conv, y_material_conv, y, mask):
@@ -71,6 +80,8 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     vector_strap = tf.constant(3., tf.float32, [BATCH_SIZE])
     vector_pattern = tf.constant(4., tf.float32, [BATCH_SIZE])
     vector_material = tf.constant(5., tf.float32, [BATCH_SIZE])
+    vector_handle = tf.constant(5., tf.float32, [BATCH_SIZE])
+    vector_decoration = tf.constant(5., tf.float32, [BATCH_SIZE])
 
     color_mask = tf.cast(tf.equal(mask, vector_color), tf.float32)
     shape_mask = tf.cast(tf.equal(mask, vector_shape), tf.float32)
@@ -78,6 +89,8 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     strap_mask = tf.cast(tf.equal(mask, vector_strap), tf.float32)
     pattern_mask = tf.cast(tf.equal(mask, vector_pattern), tf.float32)
     material_mask = tf.cast(tf.equal(mask, vector_material), tf.float32)
+    handle_mask = tf.cast(tf.equal(mask, vector_handle), tf.float32)
+    decoration_mask = tf.cast(tf.equal(mask, vector_decoration), tf.float32)
 
     tf.add_to_collection('smile_mask', color_mask)
     tf.add_to_collection('shape_mask', shape_mask)
@@ -85,6 +98,8 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     tf.add_to_collection('strap_mask', strap_mask)
     tf.add_to_collection('pattern_mask', pattern_mask)
     tf.add_to_collection('material_mask', material_mask)
+    tf.add_to_collection('handle_mask', handle_mask)
+    tf.add_to_collection('decoration_mask', decoration_mask)
 
     y_color = tf.slice(y, [0, 0], [BATCH_SIZE, 2])
     y_shape = tf.slice(y, [0, 0], [BATCH_SIZE, 2])
@@ -92,6 +107,8 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     y_strap = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
     y_pattern = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
     y_material = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
+    y_handle = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
+    y_decoration = tf.slice(y, [0, 0], [BATCH_SIZE, 4])
 
     tf.add_to_collection('y_color', y_color)
     tf.add_to_collection('y_shape', y_shape)
@@ -99,6 +116,8 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     tf.add_to_collection('y_strap', y_strap)
     tf.add_to_collection('y_pattern', y_pattern)
     tf.add_to_collection('y_material', y_material)
+    tf.add_to_collection('y_handle', y_handle)
+    tf.add_to_collection('y_decoration', y_decoration)
 
     color_cross_entropy = tf.reduce_sum(
         tf.reduce_sum(-y_color * tf.log(y_color_conv), axis=1) * color_mask) / tf.clip_by_value(
@@ -118,6 +137,12 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     material_cross_entropy = tf.reduce_sum(
         tf.reduce_sum(-y_material * tf.log(y_material_conv), axis=1) * material_mask) / tf.clip_by_value(
         tf.reduce_sum(material_mask), 1, 1e9)
+    handle_cross_entropy = tf.reduce_sum(
+        tf.reduce_sum(-y_handle * tf.log(y_handle_conv), axis=1) * handle_mask) / tf.clip_by_value(
+        tf.reduce_sum(handle_mask), 1, 1e9)
+    decoration_cross_entropy = tf.reduce_sum(
+        tf.reduce_sum(-y_decoration * tf.log(y_decoration_conv), axis=1) * decoration_mask) / tf.clip_by_value(
+        tf.reduce_sum(decoration_mask), 1, 1e9)
 
     l2_loss = []
     for var in tf.trainable_variables():
@@ -125,9 +150,9 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
             l2_loss.append(tf.nn.l2_loss(var))
     l2_loss = WEIGHT_DECAY * tf.add_n(l2_loss)
 
-    total_loss = color_cross_entropy + shape_cross_entropy + opening_cross_entropy + strap_cross_entropy + pattern_cross_entropy + material_cross_entropy + l2_loss
+    total_loss = color_cross_entropy + shape_cross_entropy + opening_cross_entropy + strap_cross_entropy + pattern_cross_entropy + material_cross_entropy + handle_cross_entropy + decoration_cross_entropy + l2_loss
 
-    return color_cross_entropy, shape_cross_entropy, opening_cross_entropy, strap_cross_entropy, pattern_cross_entropy, material_cross_entropy, l2_loss, total_loss
+    return color_cross_entropy, shape_cross_entropy, opening_cross_entropy, strap_cross_entropy, pattern_cross_entropy, material_cross_entropy, handle_cross_entropy, decoration_cross_entropy, l2_loss, total_loss
 
 
 def train_op(loss, global_step):
