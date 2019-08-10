@@ -1,6 +1,6 @@
 WEIGHT_INIT = 0.01
 NUM_TASKS = 8
-IMG_SIZE = 256
+IMG_SIZE = 48
 INIT_LR = 0.001
 USE_BN = True
 USE_AUGMENT=True
@@ -16,5 +16,5 @@ SAVE_FOLDER = './save/current/'
 SAVE_FOLDER2 = './save/current2/'
 SAVE_FOLDER3 = './save/current3/'
 
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 3000
 DROP_OUT_PROB = 0.8
