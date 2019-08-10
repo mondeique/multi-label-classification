@@ -50,3 +50,5 @@ $ pip install -r requirements.txt
 1. cropped_image_id가 중복되어 두 번의 카테고리 라벨이 저장되는 경우 발생 : drop_duplicates()를 이용하여 해결
 
 2. numpy array - list 변환 시 RAM memory를 크게 잡아먹어 큰 속도의 감소 : code를 잘 짜야한다.
+
+3. ValueError: setting an array element with a sequence. : "진행중"
