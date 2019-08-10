@@ -51,4 +51,4 @@ $ pip install -r requirements.txt
 
 2. numpy array - list 변환 시 RAM memory를 크게 잡아먹어 큰 속도의 감소 : code를 잘 짜야한다.
 
-3. ValueError: setting an array element with a sequence. : "진행중"
+**3. ValueError: setting an array element with a sequence. : 진행중**
