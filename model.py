@@ -101,7 +101,7 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     tf.add_to_collection('handle_mask', handle_mask)
     tf.add_to_collection('decoration_mask', decoration_mask)
 
-    y_color = tf.slice(y, [0, 0], [BATCH_SIZE, 13])
+    y_color = tf.slice(y, [0, 0], [BATCH_SIZE, 14])
     y_shape = tf.slice(y, [0, 0], [BATCH_SIZE, 13])
     y_opening = tf.slice(y, [0, 0], [BATCH_SIZE, 6])
     y_strap = tf.slice(y, [0, 0], [BATCH_SIZE, 5])
