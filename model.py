@@ -32,7 +32,7 @@ def multi_label_net(x):
     # color branch
     color_fc1 = fc_layer('color_fc1', x, 256, keep_prob, 'relu')
     color_fc2 = fc_layer('color_fc2', color_fc1, 256, keep_prob, 'relu')
-    y_color_conv = fc_layer('color_softmax', color_fc2, 13, keep_prob, 'softmax')
+    y_color_conv = fc_layer('color_softmax', color_fc2, 14, keep_prob, 'softmax')
 
     # shape branch
     shape_fc1 = fc_layer('shape_fc1', x, 256, keep_prob, 'relu')
