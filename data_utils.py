@@ -262,10 +262,6 @@ def padding_inputs(image: tf.Tensor, target_shape: Tuple[int, int, int]) -> Tupl
 
 ################################ Numpy Functions #######################################
 
-def set_value(batch, img_size):
-    for i in range(len(batch)):
-        batch[i] = np.resize(batch[i], (img_size,img_size,3))  
-    return batch
 
 def random_crop(batch, crop_shape, padding=None):
     oshape = np.shape(batch[0])
@@ -322,7 +318,6 @@ def random_blur(batch, sigma_max=5.0):
 
 def augmentation(batch, img_size):
     #batch = random_crop(batch, (img_size, img_size), 10)
-    batch = set_value(batch, img_size)
     #batch = random_blur(batch)
     batch = random_flip_leftright(batch)
     batch = random_rotation(batch, 10)
