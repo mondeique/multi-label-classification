@@ -53,4 +53,6 @@ $ pip install -r requirements.txt
 
 3. ValueError: setting an array element with a sequence. -> array와 list의 혼용으로 인한 feed_dict에서의 shape 문제
 
-4. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_1:0', which has shape '(?, 8)' : label이 1개인지 8개인지 명시했어야 하는 error
+4. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_1:0', which has shape '(?, 8)' : label tensor 선언시 size [BATCH SIZE, 8]로 선언했던 문제
+
+5. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_2:0', which has shape '(16,)' : 
