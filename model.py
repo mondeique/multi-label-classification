@@ -6,7 +6,7 @@ from ops import fc_layer, vgg_block
 
 def input_tensor():
     x = tf.placeholder(tf.float32, [None, IMG_SIZE, IMG_SIZE, 3])
-    y = tf.placeholder(tf.float32, [None, 1])
+    y = tf.placeholder(tf.float32, [None, 16])
     mask = tf.placeholder(tf.float32, [BATCH_SIZE])
 
     return x, y, mask
