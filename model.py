@@ -6,7 +6,7 @@ from ops import fc_layer, vgg_block
 
 def input_tensor():
     x = tf.placeholder(tf.float32, [None, IMG_SIZE, IMG_SIZE, 3])
-    y = tf.placeholder(tf.float32, [None, 8])
+    y = tf.placeholder(tf.float32, [None, 1])
     mask = tf.placeholder(tf.float32, [BATCH_SIZE])
 
     return x, y, mask
@@ -81,7 +81,7 @@ def selective_loss(y_color_conv, y_shape_conv, y_opening_conv, y_strap_conv, y_p
     vector_pattern = tf.constant(4., tf.float32, [BATCH_SIZE])
     vector_material = tf.constant(5., tf.float32, [BATCH_SIZE])
     vector_handle = tf.constant(5., tf.float32, [BATCH_SIZE])
-    vector_decoration = tf.constant(5., tf.float32, [BATCH_SIZE])
+    vector_decoration = tf.constant(6., tf.float32, [BATCH_SIZE])
 
     color_mask = tf.cast(tf.equal(mask, vector_color), tf.float32)
     shape_mask = tf.cast(tf.equal(mask, vector_shape), tf.float32)
