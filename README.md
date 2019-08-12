@@ -33,7 +33,9 @@ test.ipynb run cell
 
 1.  train.ipynb : main training jupyter notebook code
 
-2.  test.ipynb : opencv로 test image에 있는 image를 불러와 미리 ```saver.restore(sess,)```에 load 된 model로 predict 하는 code
+2.  evaluate.ipynb : test data에 대한 evaluation jupyter notebook code
+
+3.  test.ipynb : opencv로 test image에 있는 image를 불러와 미리 ```saver.restore(sess,)```에 load 된 model로 predict 하는 code
 <br></br>
 ## data 
 
