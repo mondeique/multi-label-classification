@@ -7,13 +7,10 @@ $ pip install -r requirements.txt
 ```
 ## How to run
 - jupyter notebook 의 train.ipynb 파일을 이용하는 방법
-
-- 자신이 직접 train.py를 짜 ```$ python train.py```로 실행하는 방법
 <br></br>
 ## file
 
 ### python file
-
 
 1.  const.py : learning rate나 batch size와 같은 constant 변수를 저장하는 python code
 
