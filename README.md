@@ -6,7 +6,13 @@ MONDEIQUE MAIN AI CODE : Multi-Label(Attribute) Image Classification at Handbag 
 $ pip install -r requirements.txt
 ```
 ## How to run
-- jupyter notebook 의 train.ipynb 파일을 이용하는 방법
+```
+train.ipynb run cell
+```
+
+```
+test.ipynb run cell
+```
 <br></br>
 ## file
 
