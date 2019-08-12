@@ -27,19 +27,21 @@ $ pip install -r requirements.txt
 
 ### jupyter notebook file
 
-1.  train.ipynb : main training jupyter notebook file 
+1.  train.ipynb : main training jupyter notebook code
+
+2.  test.ipynb : opencv로 test image에 있는 image를 불러와 미리 ```saver.restore(sess,)```에 load 된 model로 predict 하는 code
 <br></br>
 ## data 
 
 ### data/bag_image
 
-- local에 저장되어 있는 모든 handbag training / evaluation data image입니다. 이 repo에서는 용량 문제로 인한 example image 가 들어있습니다.
+- local에 저장되어 있는 모든 handbag training / evaluation / test data image입니다. 이 repo에서는 용량 문제로 인한 example image 가 들어있습니다.
 
 ### data/bag_image_csv
 
-- Amazon s3에 있는 cropped image id 와 matching 되는 filename 이 들어있는 csv
+- choco_categories_categories.csv :  각 cropped image id에 매칭되는 category label 이 들어있는 csv
 
-- 각 cropped image id에 매칭되는 category label 이 들어있는 csv
+- choco_categories_croppedimage.csv : Amazon s3에 있는 cropped image id 와 matching 되는 filename 이 들어있는 csv
 
 ### data/training_bag.csv + data/make_final_csv
 
@@ -53,6 +55,6 @@ $ pip install -r requirements.txt
 
 3. ValueError: setting an array element with a sequence. -> array와 list의 혼용으로 인한 feed_dict에서의 shape 문제
 
-4. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_1:0', which has shape '(?, 8)' : label tensor 선언시 size [BATCH SIZE, 8]로 선언했던 문제
+4. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_1:0', which has shape '(?, 8)' : label tensor 선언시 size [BATCH SIZE, 8]로 선언했던 문제 -> reshape로 shape 맞춰줌
 
-5. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_2:0', which has shape '(16,)' : np.reshape로 shape 맞춰줘야 했던 문제
+5. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_2:0', which has shape '(16,)' : np.reshape로 shape 맞춰줘야 했던 문제 -> reshape로 shape 맞춰줌
