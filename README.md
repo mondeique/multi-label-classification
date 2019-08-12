@@ -29,7 +29,7 @@ test.ipynb run cell
 
 5.  ops.py : model을 설계하기 위한 layer operation python code
 
-### jupyter notebook file
+### jupyter notebook file (private repo 이므로 preview는 불가능)
 
 1.  train.ipynb : main training jupyter notebook code
 
