@@ -55,4 +55,4 @@ $ pip install -r requirements.txt
 
 4. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_1:0', which has shape '(?, 8)' : label tensor 선언시 size [BATCH SIZE, 8]로 선언했던 문제
 
-5. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_2:0', which has shape '(16,)' : 
+5. ValueError: Cannot feed value of shape (16, 1) for Tensor 'Placeholder_2:0', which has shape '(16,)' : np.reshape로 shape 맞춰줘야 했던 문제
