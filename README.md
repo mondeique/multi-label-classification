@@ -52,6 +52,8 @@ test.ipynb run cell
 ### data/training_bag.csv + data/make_final_csv
 
 - 최종 training csv를 만들기 위한 jupyter notebook file 과 생성된 training csv
+
+- **TODO : training csv를 training : evalutation = 8 : 2 의 비율로 나누기**
 <br></br>
 ## error
 
