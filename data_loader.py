@@ -9,6 +9,7 @@ import cv2
 def getBagImage():
     print('Reading csv................')
     df = pd.read_csv('./data/training_bag_csv')
+    # data -> training : evaluation = 8:2 로 나누기
     data_mask = np.random.rand(len(df)) < 0.8
     train_df = df
     train_label_df = train_df.drop(['filename'], axis=1)
@@ -36,7 +37,7 @@ def getBagImage():
     print('Number of bag test data: ', str(len(test_data)))
     print('---------------------------------------------------------------')
     return train_data, test_data
-
+                                
 #########################################################################################
 #
 #
