@@ -37,7 +37,7 @@ test.ipynb run cell
 
 1.  train.ipynb : training data에 대한 main training jupyter notebook code
 
-2.  evaluate.ipynb : test data에 대한 evaluation jupyter notebook code
+2.  evaluate.ipynb : evlautaion data에 대한 evaluation jupyter notebook code
 
 3.  test.ipynb : opencv로 test image에 있는 image를 불러와 미리 ```saver.restore(sess,)```에 load 된 model로 predict 하는 code
 <br></br>
@@ -55,7 +55,7 @@ test.ipynb run cell
 
 ### data/training_bag.csv + data/make_final_csv
 
-- 최종 training csv를 만들기 위한 jupyter notebook file 과 생성된 training csv
+- 최종 training csv를 만들기 위한 jupyter notebook file 과 생성된 training + evaluation csv 
 
 - **TODO : training csv를 training : evalutation = 8 : 2 의 비율로 나누기**
 <br></br>
