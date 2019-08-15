@@ -11,6 +11,10 @@ train.ipynb run cell
 ```
 
 ```
+evaluation.ipynb run cell
+```
+
+```
 test.ipynb run cell
 ```
 
