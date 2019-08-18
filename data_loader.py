@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import cv2
@@ -8,13 +7,17 @@ import cv2
 
 def getBagImage():
     print('Reading csv................')
-    df = pd.read_csv('./data/training_bag_csv')
+    df = pd.read_csv('./data/training_bag_v3_csv')
     # data -> training : evaluation = 8:2 로 나누기
     data_mask = np.random.rand(len(df)) < 0.8
-    train_df = df
+    train_df = df[data_mask]
     train_label_df = train_df.drop(['filename'], axis=1)
     test_df = df[~data_mask]
     test_label_df = test_df.drop(['filename'], axis=1)
+    train_df = train_df.reset_index(drop=True)
+    train_label_df = train_label_df.reset_index(drop=True)
+    test_df = test_df.reset_index(drop=True)
+    test_label_df = test_label_df.reset_index(drop=True)
     train_data = []
     test_data = []
     print('Load bag image...................')
@@ -26,7 +29,7 @@ def getBagImage():
         train_label = train_label_df.values.tolist()
         train_data.append((T, train_label))
     for i in range(len(test_df)):
-        test_image = cv2.imread(test_df['filename'[i]]
+        test_image = cv2.imread(test_df['filename'][i])
         test_image = cv2.resize(test_image, (64,64))
         S = np.zeros([64, 64, 3])
         S[:,:,:] = test_image
