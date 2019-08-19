@@ -15,7 +15,6 @@ USE_GPU = True
 SAVE_FOLDER = './save/current/'
 SAVE_FOLDER2 = './save/current2/'
 SAVE_FOLDER3 = './save/current3/'
-SAVE_FOLDER4 = './save/current4/'
 
 NUM_EPOCHS = 300
 DROP_OUT_PROB = 0.8
