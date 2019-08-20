@@ -16,5 +16,5 @@ SAVE_FOLDER = './save/current/'
 SAVE_FOLDER2 = './save/current2/'
 SAVE_FOLDER3 = './save/current3/'
 
-NUM_EPOCHS = 300
+NUM_EPOCHS = 150
 DROP_OUT_PROB = 0.8
