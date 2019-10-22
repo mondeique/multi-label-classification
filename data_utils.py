@@ -317,11 +317,11 @@ def random_blur(batch, sigma_max=5.0):
 
 
 def augmentation(batch, img_size):
-    #batch = random_crop(batch, (img_size, img_size), 10)
-    #batch = random_blur(batch)
+    # batch = random_crop(batch, (img_size, img_size), 10)
+    # batch = random_blur(batch)
     batch = random_flip_leftright(batch)
+    batch = random_flip_updown(batch)
     batch = random_rotation(batch, 10)
-
     return batch
 
 

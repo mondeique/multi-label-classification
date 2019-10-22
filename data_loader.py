@@ -23,16 +23,16 @@ def getBagImage():
     print('Load bag image...................')
     for i in range(len(train_df)):
         train_image = cv2.imread(train_df['filename'][i])
-        train_image = cv2.resize(train_image, (64,64))
+        train_image = cv2.resize(train_image, (64, 64))
         T = np.zeros([64, 64, 3])
-        T[:,:,:] = train_image
+        T[:, :, :] = train_image
         train_label = train_label_df.values.tolist()
         train_data.append((T, train_label))
     for i in range(len(test_df)):
         test_image = cv2.imread(test_df['filename'][i])
-        test_image = cv2.resize(test_image, (64,64))
+        test_image = cv2.resize(test_image, (64, 64))
         S = np.zeros([64, 64, 3])
-        S[:,:,:] = test_image
+        S[:, :, :] = test_image
         test_label = test_label_df.values.tolist()
         test_data.append((S, test_label))
 
